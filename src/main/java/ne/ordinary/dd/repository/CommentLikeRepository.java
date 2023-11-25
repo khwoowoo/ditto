@@ -11,6 +11,9 @@ import java.util.Optional;
 
 public interface CommentLikeRepository extends JpaRepository<CommentLike, Long> {
 
+    @Query("SELECT cl " +
+            "from CommentLike cl " +
+            "where cl.comment.commentId = :commentId ")
     Optional<CommentLike> findCommentLikeByCommentId(Long commentId);
 
     void delete(Optional<CommentLike> commentLike);
@@ -22,6 +25,6 @@ public interface CommentLikeRepository extends JpaRepository<CommentLike, Long> 
 
     @Query("select count(*) " +
             "from CommentLike cl " +
-            "where cl.comment.commentId = :comentId and cl.user.id = :userId")
-    int countByCommentIdAndUserId(@Param("commentId") Long commentId, @Param("userId") Long id);
+            "where cl.comment.commentId = :commentId and cl.user.id = :userId")
+    int countByCommentIdAndUserId(@Param("commentId") Long commentId, @Param("userId") Long userId);
 }
