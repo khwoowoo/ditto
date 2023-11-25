@@ -22,6 +22,7 @@ public class FeedsDTO {
     @Data
     public static class Response {
         private Long writerId;
+        private Long feedId;
         private String title;
         private String content;
         private String category;
@@ -33,6 +34,7 @@ public class FeedsDTO {
 
         public Response(Feed feed, Long likeCount, Long commentCount, boolean isLikeChecked) {
             this.writerId = feed.getUser().getId();
+            this.feedId = feed.getId();
             this.title = feed.getTitle();
             this.content = feed.getContent();
             this.category = feed.getCategory();
@@ -45,6 +47,7 @@ public class FeedsDTO {
 
         public Response(FeedsRepository.FeedResult feed, Long likeCount, Long commentCount, boolean isLikeChecked) {
             this.writerId = feed.getUserId();
+            this.feedId = feed.getFeedId();
             this.title = feed.getTitle();
             this.content = feed.getContent();
             this.category = feed.getCategory();
