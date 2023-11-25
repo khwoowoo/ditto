@@ -42,7 +42,7 @@ public class FeedService {
                     commentLikeRepository.countByCommentIdAndType(c.getCommentId(), 1),
                     commentLikeRepository.countByCommentIdAndType(c.getCommentId(), 2),
                     commentLikeRepository.countByCommentIdAndUserId(c.getCommentId(), userPS.getId()) >= 1 ? true : false,
-                    new CommentResponse.AuthorDTO(c.getUser())
+                    new CommentResponse.AuthorDTO(c.getWriter())
             );
             List<Comment> reComments = commentRepository.findByParentId(c.getCommentId());
             List<CommentResponse.ReCommentDTO> reCommentDTOs = new ArrayList<>();
@@ -53,7 +53,7 @@ public class FeedService {
                         commentLikeRepository.countByCommentIdAndType(re.getCommentId(), 1),
                         commentLikeRepository.countByCommentIdAndType(re.getCommentId(), 2),
                         commentLikeRepository.countByCommentIdAndUserId(re.getCommentId(), userPS.getId()) >= 1 ? true : false,
-                        new CommentResponse.AuthorDTO(re.getUser())
+                        new CommentResponse.AuthorDTO(re.getWriter())
                 );
 
                 reCommentDTOs.add(reCommentDTO);
