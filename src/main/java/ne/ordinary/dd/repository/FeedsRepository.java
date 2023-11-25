@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Repository
 public interface FeedsRepository extends JpaRepository<Feed, Long> {
@@ -24,6 +25,9 @@ public interface FeedsRepository extends JpaRepository<Feed, Long> {
             "GROUP BY fl.feedId, f.userId, f.title, fl.feedId, f.content, f.category, f.createdAt, f.updatedAt\n" +
             "ORDER BY likeCount DESC", nativeQuery = true)
     Page<FeedResult> findAllByCategoryOrderByLikeCountDesc(@Param("category") String category, PageRequest pageRequest);
+
+    Optional<Feed> findById(Long feedId);
+
     interface FeedResult {
         Long getFeedId();
         Long getUserId();

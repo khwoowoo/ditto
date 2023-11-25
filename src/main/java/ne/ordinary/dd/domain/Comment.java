@@ -49,16 +49,6 @@ public class Comment {
     private List<Comment> childList = new ArrayList<>();
 
 
-    //== 연관관계 편의 메서드 ==//
-//    public void confirmWriter(User writer) {
-//        this.writer = writer;
-//        writer.addComment(this);
-//    }
-//
-//    public void confirmPost(Feed feed) {
-//        this.feed = feed;
-//        feed.addComment(this);
-//    }
 
     public void confirmParent(Comment parent){
         this.parent = parent;
