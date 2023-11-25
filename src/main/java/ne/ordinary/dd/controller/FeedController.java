@@ -61,9 +61,9 @@ public class FeedController {
         return new ResponseDTO();
     }
 
-    @DeleteMapping("/feed/{id}")
-    public ResponseDTO deleteFeed(@PathVariable Long id, @RequestBody FeedRequest.DeleteDTO deleteDTO) {
-        feedService.deleteFeed(id, deleteDTO);
+    @DeleteMapping("/feed/{id}/like")
+    public ResponseDTO deleteFeedLike(@PathVariable Long id, @RequestBody FeedRequest.DeleteLikeDTO deleteLikeDTO) {
+        feedService.deleteFeedLike(id, deleteLikeDTO);
 
         return new ResponseDTO();
     }

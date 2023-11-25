@@ -65,4 +65,12 @@ public class FeedRequest {
 
         private String uuid;
     }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class DeleteLikeDTO {
+
+        private String uuid;
+    }
 }

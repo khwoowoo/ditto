@@ -152,4 +152,20 @@ public class FeedService {
             throw new Exception500("피드 삭제가 실패했습니다.");
         }
     }
+
+    @Transactional
+    public void deleteFeedLike(Long id, FeedRequest.DeleteLikeDTO deleteLikeDTO) {
+        Feed feedPS = feedsRepository.findById(id).orElseThrow(
+                () -> new Exception404("존재하지 않는 피드입니다.")
+        );
+        User userPS = userRepository.findByUuid(deleteLikeDTO.getUuid()).get(0);
+        Optional<FeedLike> feedLikeOP = feedLikeRepository.findByFeedAndUser(feedPS, userPS);
+        try {
+            if (feedLikeOP.isPresent()) {
+                feedLikeRepository.delete(feedLikeOP.get());
+            }
+        } catch (Exception e) {
+            throw new Exception500("피드 공감 삭제가 실패했습니다.");
+        }
+    }
 }
