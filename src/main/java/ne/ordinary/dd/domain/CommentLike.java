@@ -3,8 +3,10 @@ package ne.ordinary.dd.domain;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 @Entity
 public class CommentLike {
 
