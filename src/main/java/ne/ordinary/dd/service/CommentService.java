@@ -62,4 +62,8 @@ public class CommentService {
         List<Comment> removableCommentList = comment.findRemovableList();
         removableCommentList.forEach(removableComment -> commentRepository.delete(removableComment));
     }
+
+    public void deleteCommentraw(Long commentId){
+        commentRepository.deleteById(commentId);
+    }
 }

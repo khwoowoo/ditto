@@ -57,14 +57,14 @@ public class CommentLikeService {
     }
 
     public void removeTLike(Long commentId, Long userId){
-        Optional<CommentLike> TLike = commentLikeRepository.findCommentLikeByUserCommentId(commentId, userId);
-        if (TLike.isEmpty()){
+        Optional<CommentLike> TLike = commentLikeRepository.findCommentLikeByUserCommentId(userId, commentId);
+        if (TLike.isPresent()){
             commentLikeRepository.delete(TLike.get());
         }
     }
     public void removeFLike(Long commentId, Long userId){
-        Optional<CommentLike> FLike = commentLikeRepository.findCommentLikeByUserCommentId(commentId, userId);
-        if (FLike.isEmpty()){
+        Optional<CommentLike> FLike = commentLikeRepository.findCommentLikeByUserCommentId(userId, commentId);
+        if (FLike.isPresent()){
             commentLikeRepository.delete(FLike.get());
         }
     }
