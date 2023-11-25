@@ -1,15 +1,14 @@
 package ne.ordinary.dd.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Note extends BaseTime{
     @Id @GeneratedValue
@@ -24,12 +23,6 @@ public class Note extends BaseTime{
     private Long receiverId;    //받는 사람 아이디
     private String content;     //내용
 
-    public Note(Long senderId, Long receiverId, String content) {
-        this.senderId = senderId;
-        this.receiverId = receiverId;
-        this.content = content;
-    }
-
     //=======연관 관계 편의 메서드=======
     public void setUser(User user){
         this.user = user;
@@ -38,7 +31,7 @@ public class Note extends BaseTime{
 
     //=======생성 메서드=======
     public static Note createNote(User user, String content, Long senderId, Long receiverId){
-        Note note = new Note(senderId, receiverId, content);
+        Note note = Note.builder().content(content).senderId(senderId).receiverId(receiverId).build();
         note.setUser(user);
         return note;
     }
