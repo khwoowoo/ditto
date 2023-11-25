@@ -57,4 +57,12 @@ public class FeedRequest {
         private String category;
         private String content;
     }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class DeleteDTO {
+
+        private String uuid;
+    }
 }

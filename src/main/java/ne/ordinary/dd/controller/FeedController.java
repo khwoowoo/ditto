@@ -60,5 +60,12 @@ public class FeedController {
 
         return new ResponseDTO();
     }
+
+    @DeleteMapping("/feed/{id}")
+    public ResponseDTO deleteFeed(@PathVariable Long id, @RequestBody FeedRequest.DeleteDTO deleteDTO) {
+        feedService.deleteFeed(id, deleteDTO);
+
+        return new ResponseDTO();
+    }
 }
 
