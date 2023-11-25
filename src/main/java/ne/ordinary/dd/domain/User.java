@@ -27,6 +27,7 @@ public class User extends BaseTime{
     public void rename(String newUsername) {
         this.username = newUsername;
     }
+    public void editHearLevel(int edit) {this.hearLevel = hearLevel;}
 
     //=======생성 메서드=======
 
