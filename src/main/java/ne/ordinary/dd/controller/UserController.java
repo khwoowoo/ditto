@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     public final UserService userService;
-    public final UserRepository ;
+    public final UserRepository userRepository;
     @PostMapping("/user/register")
     public ResponseDTO<Long> register(@RequestBody UserRequestDto userRequestDto){
         User user = User.createUser(userRequestDto);
