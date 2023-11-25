@@ -2,6 +2,7 @@ package ne.ordinary.dd.controller;
 
 
 import lombok.RequiredArgsConstructor;
+import ne.ordinary.dd.core.exception.Exception500;
 import ne.ordinary.dd.domain.User;
 import ne.ordinary.dd.model.ResponseDTO;
 import ne.ordinary.dd.model.UserRequestDto;
@@ -18,6 +19,11 @@ public class UserController {
     public final UserRepository userRepository;
     @PostMapping("/user/register")
     public ResponseDTO<Long> register(@RequestBody UserRequestDto userRequestDto){
+
+        if(userRequestDto.getUuid() == null){
+            throw new Exception500("user register error");
+        }
+
         User user = User.createUser(userRequestDto);
         Long userId = userService.register(user);
         return new ResponseDTO<Long>(userId);
