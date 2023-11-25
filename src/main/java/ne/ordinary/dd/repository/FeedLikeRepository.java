@@ -21,4 +21,8 @@ public interface FeedLikeRepository extends JpaRepository<FeedLike, Long> {
     Long countByFeedId(Long feelId);
 
     Optional<FeedLike> findByFeedAndUser(Feed feed, User user);
+
+    @Query("delete from FeedLike fl " +
+            "where fl.feed.id = :feedId")
+    void deleteByFeedId(@Param("feedId") Long id);
 }

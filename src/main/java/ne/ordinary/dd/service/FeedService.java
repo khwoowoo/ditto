@@ -155,7 +155,11 @@ public class FeedService {
         Feed feedPS = feedsRepository.findById(id).orElseThrow(
                 () -> new Exception404("존재하지 않는 피드입니다.")
         );
+
         try {
+            commentLikeRepository.deleteByFeedId(feedPS.getId());
+            commentRepository.deleteById(feedPS.getId());
+            feedLikeRepository.deleteByFeedId(feedPS.getId());
             feedsRepository.deleteById(feedPS.getId());
         } catch (Exception e) {
             throw new Exception500("피드 삭제가 실패했습니다.");

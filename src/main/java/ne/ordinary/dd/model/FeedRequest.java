@@ -10,7 +10,6 @@ public class FeedRequest {
 
     @Getter
     @Setter
-    @AllArgsConstructor
     public static class ModifyDTO {
 
         private String uuid;
@@ -21,7 +20,6 @@ public class FeedRequest {
 
     @Getter
     @Setter
-    @AllArgsConstructor
     public static class UuidDTO {
 
         private String uuid;
@@ -29,7 +27,6 @@ public class FeedRequest {
 
     @Getter
     @Setter
-    @AllArgsConstructor
     public static class AddDTO {
 
         private String uuid;
@@ -49,7 +46,6 @@ public class FeedRequest {
 
     @Getter
     @Setter
-    @AllArgsConstructor
     public static class UpdateDTO {
 
         private String uuid;
@@ -60,7 +56,6 @@ public class FeedRequest {
 
     @Getter
     @Setter
-    @AllArgsConstructor
     public static class DeleteDTO {
 
         private String uuid;
@@ -68,7 +63,6 @@ public class FeedRequest {
 
     @Getter
     @Setter
-    @AllArgsConstructor
     public static class DeleteLikeDTO {
 
         private String uuid;
