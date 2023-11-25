@@ -25,6 +25,9 @@ public class FeedController {
     public ResponseDTO addFeed(@RequestBody FeedRequest.AddDTO addDTO) {
         // RELATIONSHIP, LOVE, FAMILY, COMPANY, EMPLOYMENT, HEALTH, SELFDEV, PET, ETC
         String category = addDTO.getCategory();
+        if (!isCorrected(category) || !isCorrected(addDTO.getTitle()) || addDTO.getContent() == null) {
+            throw new Exception400("category || title || content", "공백이나 null 값 대신 다른 값을 입력해주세요.");
+        }
         if (!category.equals("RELATIONSHIP")
                 && !category.equals("LOVE")
                 && !category.equals("FAMILY")
@@ -45,6 +48,9 @@ public class FeedController {
     public ResponseDTO updateFeed(@PathVariable Long id, @RequestBody FeedRequest.UpdateDTO updateDTO) {
         // RELATIONSHIP, LOVE, FAMILY, COMPANY, EMPLOYMENT, HEALTH, SELFDEV, PET, ETC
         String category = updateDTO.getCategory();
+        if (!isCorrected(category) || !isCorrected(updateDTO.getTitle()) || updateDTO.getContent() == null) {
+            throw new Exception400("category || title || content", "공백이나 null 값 대신 다른 값을 입력해주세요.");
+        }
         if (!category.equals("RELATIONSHIP")
                 && !category.equals("LOVE")
                 && !category.equals("FAMILY")
@@ -73,6 +79,13 @@ public class FeedController {
         feedService.deleteFeedLike(id, deleteLikeDTO);
 
         return new ResponseDTO();
+    }
+
+    private boolean isCorrected(String str) {
+        if (str != null && !str.isBlank()) {
+            return true;
+        }
+        return false;
     }
 }
 
