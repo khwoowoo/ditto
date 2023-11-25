@@ -3,6 +3,7 @@ package ne.ordinary.dd.repository;
 import ne.ordinary.dd.domain.Comment;
 import ne.ordinary.dd.domain.CommentLike;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -34,6 +35,7 @@ public interface CommentLikeRepository extends JpaRepository<CommentLike, Long> 
             "where cl.comment.commentId = :commentId and cl.user.id = :userId")
     int countByCommentIdAndUserId(@Param("commentId") Long commentId, @Param("userId") Long userId);
 
+    @Modifying
     @Query("delete from CommentLike cl " +
             "where cl.comment.feed.id = :feedId")
     void deleteByFeedId(@Param("feedId") Long id);

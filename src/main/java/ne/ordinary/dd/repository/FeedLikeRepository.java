@@ -4,6 +4,7 @@ import ne.ordinary.dd.domain.Feed;
 import ne.ordinary.dd.domain.FeedLike;
 import ne.ordinary.dd.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -22,6 +23,7 @@ public interface FeedLikeRepository extends JpaRepository<FeedLike, Long> {
 
     Optional<FeedLike> findByFeedAndUser(Feed feed, User user);
 
+    @Modifying
     @Query("delete from FeedLike fl " +
             "where fl.feed.id = :feedId")
     void deleteByFeedId(@Param("feedId") Long id);

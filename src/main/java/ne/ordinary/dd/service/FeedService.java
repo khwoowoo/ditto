@@ -29,6 +29,7 @@ public class FeedService {
     private final CommentRepository commentRepository;
     private final CommentLikeRepository commentLikeRepository;
     private final FeedLikeRepository feedLikeRepository;
+    private final CommentService commentService;
 
     public FeedResponse.FeedDTO getFeed(Long id) {
         Feed feedPS = feedsRepository.findById(id).orElseThrow(
@@ -158,10 +159,14 @@ public class FeedService {
 
         try {
             commentLikeRepository.deleteByFeedId(feedPS.getId());
-            commentRepository.deleteById(feedPS.getId());
+            List<Comment> comments = commentRepository.findByFeedId(feedPS.getId());
+            for (Comment c : comments) {
+                commentService.deleteComment(c.getCommentId());
+            }
             feedLikeRepository.deleteByFeedId(feedPS.getId());
             feedsRepository.deleteById(feedPS.getId());
         } catch (Exception e) {
+            e.printStackTrace();
             throw new Exception500("피드 삭제가 실패했습니다.");
         }
     }
