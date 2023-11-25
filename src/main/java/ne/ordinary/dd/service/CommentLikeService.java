@@ -31,6 +31,8 @@ public class CommentLikeService {
                     .type(2L)
                     .user(userRepository.findUser(userId))
                     .build();
+
+            commentLikeRepository.save(commentLike);
         }
         return ResponseEntity.ok("공감하셨습니다.");
     }
@@ -46,6 +48,8 @@ public class CommentLikeService {
                     .type(1L)
                     .user(userRepository.findUser(userId))
                     .build();
+            
+            commentLikeRepository.save(commentLike);
         }
         return ResponseEntity.ok("공감하셨습니다.");
     }
