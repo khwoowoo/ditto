@@ -42,7 +42,7 @@ public class FeedsService {
                         Optional<Feed> feed = feedsRepository.findById(f.getFeedId());
                         Optional<User> user = userRepository.findById(f.getUserId());
 
-                        Long commentCount = commentRepository.countByPostId(f.getFeedId()); // commentRepository에 추가
+                        Long commentCount = commentRepository.countByFeedId(f.getFeedId()); // commentRepository에 추가
                         Optional<FeedLike> feedLike = feedLikeRepository.findByUserIdAndFeedId(feed.get().getId(), user.get().getId());
 
                         boolean isLikeChecked = false;
@@ -71,7 +71,7 @@ public class FeedsService {
             return feedList.stream()
                     .map(f -> {
                         Long likeCount = feedLikeRepository.countByFeedId(f.getId());   // feedLikeRepository에 추가
-                        Long commentCount = commentRepository.countByPostId(f.getId()); // commentRepository에 추가
+                        Long commentCount = commentRepository.countByFeedId(f.getId()); // commentRepository에 추가
 
                         boolean isLikeChecked = false;
                         Optional<FeedLike> feedLike = feedLikeRepository.findByFeedAndUser(f, f.getUser());
@@ -98,7 +98,7 @@ public class FeedsService {
             return feedList.stream()
                     .map(f -> {
                         Long likeCount = feedLikeRepository.countByFeedId(f.getId());   // feedLikeRepository에 추가
-                        Long commentCount = commentRepository.countByPostId(f.getId()); // commentRepository에 추가
+                        Long commentCount = commentRepository.countByFeedId(f.getId()); // commentRepository에 추가
 
                         boolean isLikeChecked = false;
                         Optional<FeedLike> feedLike = feedLikeRepository.findByFeedAndUser(f, f.getUser());
