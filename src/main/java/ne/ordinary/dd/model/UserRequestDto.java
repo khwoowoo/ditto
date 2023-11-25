@@ -9,6 +9,6 @@ import lombok.*;
 public class UserRequestDto {
     String uuid;
     boolean isCheck;
-    int hearLevel;
     String username;
+    String content;
 }

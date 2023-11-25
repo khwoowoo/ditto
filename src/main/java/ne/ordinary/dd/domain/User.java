@@ -32,12 +32,12 @@ public class User extends BaseTime{
 
     //=======생성 메서드=======
 
-    public static User createUser(UserRequestDto userRequestDto){
+    public static User createUser(UserRequestDto userRequestDto, int hearLevel){
         return User.builder()
                 .uuid(userRequestDto.getUuid())
                 .username(userRequestDto.getUuid())
                 .isCheck(userRequestDto.isCheck())
-                .hearLevel(userRequestDto.getHearLevel())
+                .hearLevel(hearLevel)
                 .build();
     }
 
