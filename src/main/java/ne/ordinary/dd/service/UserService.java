@@ -43,4 +43,10 @@ public class UserService {
         user.rename(rename);
     }
 
+    @Transactional
+    public void editHearLevel(Long id, int editHearLevel){
+        User user = userRepository.findUser(id);
+        user.editHearLevel(editHearLevel);
+    }
+
 }
