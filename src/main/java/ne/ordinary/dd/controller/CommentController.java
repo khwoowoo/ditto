@@ -30,19 +30,19 @@ public class CommentController {
     public void delete(@PathVariable("commentId") Long commentId){
         commentService.deleteComment(commentId);
     }
-    @PostMapping("/comment/[commentId]/Tilke")
+    @PostMapping("/comment/{commentId}/Tilke")
     public void addTlike(@PathVariable("commentId") Long commentId, @RequestBody Long userId){
         commentLikeService.addTLike(commentId, userId);
     }
-    @PostMapping("/comment/[commentId]/Filke")
+    @PostMapping("/comment/{commentId}/Filke")
     public void addFlike(@PathVariable("commentId") Long commentId, @RequestBody Long userId){
         commentLikeService.addFLike(commentId, userId);
     }
-    @DeleteMapping("/comment/[commentId]/Tlike")
+    @DeleteMapping("/comment/{commentId}/Tlike")
     public void removeTLike(@PathVariable("commentLike") Long commentId){
         commentLikeService.removeTLike(commentId);
     }
-    @DeleteMapping("/comment/[commentId]/Flike")
+    @DeleteMapping("/comment/{commentId}/Flike")
     public void removeFLike(@PathVariable("commentLike") Long commentId){
         commentLikeService.removeFLike(commentId);
     }
