@@ -30,6 +30,13 @@ public class UserController {
         int hearLevel = chatGptService.createMBTITest(userRequestDto.getContent());
         System.out.println(hearLevel);
 
+        if (hearLevel > 100){
+            hearLevel = 100;
+        }
+        else if (hearLevel < 0){
+            hearLevel = 0;
+        }
+
         User user = User.createUser(userRequestDto, hearLevel);
         Long userId = userService.register(user);
         return new ResponseDTO<Long>(userId);

@@ -19,6 +19,12 @@ public class UserService {
 
     @Transactional
     public Long register(User user){
+        List<User> findList = userRepository.findByUuid(user.getUuid());
+
+        if(findList.size() > 0) {
+            throw new Exception500("user register error");
+        }
+
         return userRepository.save(user);
     }
 
