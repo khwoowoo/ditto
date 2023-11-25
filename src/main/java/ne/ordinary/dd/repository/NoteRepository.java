@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 public class NoteRepository {
-    private EntityManager em;
+    private final EntityManager em;
 
    public Long save(Note note){
        em.persist(note);

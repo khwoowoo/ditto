@@ -25,11 +25,14 @@ public class UserService {
     public UserResponseDto login(String uuid){
         List<User> findList = userRepository.findByUuid(uuid);
         User findUser = null;
+        System.out.println(findList.size());
 
-        if(findList.size() != 0) {
+        if(findList.size() == 1) {
+            findUser = findList.get(0);
+        }else{
             throw new Exception500("user login error");
         }
-        else findUser = findList.get(0);
+
 
         return UserResponseDto.builder()
                 .id(findUser.getId())
