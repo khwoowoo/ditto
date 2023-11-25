@@ -20,7 +20,7 @@ public class Notice extends BaseTime {
     private Long noticeId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "userId", nullable = false)
     private User user;
 
     @Column(name = "title", length = 50, nullable = false)
