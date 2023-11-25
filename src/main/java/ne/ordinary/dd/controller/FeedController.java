@@ -26,17 +26,37 @@ public class FeedController {
         // RELATIONSHIP, LOVE, FAMILY, COMPANY, EMPLOYMENT, HEALTH, SELFDEV, PET, ETC
         String category = addDTO.getCategory();
         if (!category.equals("RELATIONSHIP")
-                || !category.equals("LOVE")
-                || !category.equals("FAMILY")
-                || !category.equals("COMPANY")
-                || !category.equals("EMPLOYMENT")
-                || !category.equals("HEALTH")
-                || !category.equals("SELFDEV")
-                || !category.equals("PET")
-                || !category.equals("ETC")) {
+                && !category.equals("LOVE")
+                && !category.equals("FAMILY")
+                && !category.equals("COMPANY")
+                && !category.equals("EMPLOYMENT")
+                && !category.equals("HEALTH")
+                && !category.equals("SELFDEV")
+                && !category.equals("PET")
+                && !category.equals("ETC")) {
             throw new Exception400("category", "category 값을 정해진 값으로 입력해주세요.");
         }
         feedService.addFeed(addDTO);
+
+        return new ResponseDTO();
+    }
+
+    @PatchMapping("/feed/{id}")
+    public ResponseDTO updateFeed(@PathVariable Long id, @RequestBody FeedRequest.UpdateDTO updateDTO) {
+        // RELATIONSHIP, LOVE, FAMILY, COMPANY, EMPLOYMENT, HEALTH, SELFDEV, PET, ETC
+        String category = updateDTO.getCategory();
+        if (!category.equals("RELATIONSHIP")
+                && !category.equals("LOVE")
+                && !category.equals("FAMILY")
+                && !category.equals("COMPANY")
+                && !category.equals("EMPLOYMENT")
+                && !category.equals("HEALTH")
+                && !category.equals("SELFDEV")
+                && !category.equals("PET")
+                && !category.equals("ETC")) {
+            throw new Exception400("category", "category 값을 정해진 값으로 입력해주세요.");
+        }
+        feedService.updateFeed(id, updateDTO);
 
         return new ResponseDTO();
     }
