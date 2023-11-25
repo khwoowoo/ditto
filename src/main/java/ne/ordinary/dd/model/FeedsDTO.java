@@ -47,7 +47,7 @@ public class FeedsDTO {
 
         public Response(FeedsRepository.FeedResult feed, Long likeCount, Long commentCount, boolean isLikeChecked) {
             this.writerId = feed.getUserId();
-            this.feedId = feed.getFeedId();
+            this.feedId = feed.getId();
             this.title = feed.getTitle();
             this.content = feed.getContent();
             this.category = feed.getCategory();

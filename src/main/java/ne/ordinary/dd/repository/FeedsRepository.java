@@ -13,23 +13,23 @@ import java.util.Optional;
 
 @Repository
 public interface FeedsRepository extends JpaRepository<Feed, Long> {
-    @Query(value = "SELECT fl.feedId, f.userId, f.title, f.content, f.category, f.createdAt, f.updatedAt, COUNT(fl.feedId) AS likeCount\n" +
-            "FROM FeedLike fl JOIN Feed f ON fl.feedId = f.id\n" +
-            "GROUP BY fl.feedId, f.userId, f.title, fl.feedId, f.content, f.category, f.createdAt, f.updatedAt\n" +
+    @Query(value = "SELECT f.id, f.user_user_id AS userId, f.title, f.content, f.category, f.created_at, f.updated_at, COUNT(fl.feed_id) AS likeCount\n" +
+            "FROM feed_like fl RIGHT OUTER JOIN feed f ON fl.feed_id = f.id\n" +
+            "GROUP BY fl.feed_id, f.user_user_id, f.title, fl.feed_id, f.content, f.category, f.created_at, f.updated_at\n" +
             "ORDER BY likeCount DESC", nativeQuery = true)
     Page<FeedResult> findAllByOrderByLikeCountDesc(PageRequest pageRequest);
 
-    @Query(value = "SELECT fl.feedId, f.userId, f.title, f.content, f.category, f.createdAt, f.updatedAt, COUNT(fl.feedId) AS likeCount\n" +
-            "FROM FeedLike fl JOIN Feed f ON fl.feedId = f.id\n" +
-            "WHERE f.category = :category \n" +
-            "GROUP BY fl.feedId, f.userId, f.title, fl.feedId, f.content, f.category, f.createdAt, f.updatedAt\n" +
-            "ORDER BY likeCount DESC", nativeQuery = true)
+    @Query(value = "SELECT f.id, f.user_user_id AS userId, f.title, f.content, f.category, f.created_at, f.updated_at, COUNT(fl.feed_id) AS likeCount\n" +
+            "FROM feed_like fl RIGHT OUTER JOIN feed f ON fl.feed_id = f.id\n" +
+            "WHERE f.category = :category\n" +
+            "GROUP BY fl.feed_id, f.user_user_id, f.title, fl.feed_id, f.content, f.category, f.created_at, f.updated_at\n" +
+            "ORDER BY likeCount DESC;", nativeQuery = true)
     Page<FeedResult> findAllByCategoryOrderByLikeCountDesc(@Param("category") String category, PageRequest pageRequest);
 
     Optional<Feed> findById(Long feedId);
 
     interface FeedResult {
-        Long getFeedId();
+        Long getId();
         Long getUserId();
         String getTitle();
         String getContent();
