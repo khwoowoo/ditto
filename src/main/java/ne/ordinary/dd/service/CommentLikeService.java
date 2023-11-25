@@ -24,7 +24,7 @@ public class CommentLikeService {
 
     public void addTLike(Long commentId, CommentLikeDTO commentLikeDTO){
 
-        Optional<CommentLike> TLike = commentLikeRepository.findCommentLikeByCommentId(commentId);
+        Optional<CommentLike> TLike = commentLikeRepository.findCommentLikeByUserId(commentLikeDTO.getUserId(), commentId);
         Optional<Comment> comment = commentRepository.findById(commentId);
 
         if (TLike.isEmpty()){
