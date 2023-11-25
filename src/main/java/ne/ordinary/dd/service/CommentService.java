@@ -5,7 +5,7 @@ import ne.ordinary.dd.core.exception.Exception404;
 import ne.ordinary.dd.domain.Comment;
 import ne.ordinary.dd.model.CommentRequestDTO;
 import ne.ordinary.dd.repository.CommentRepository;
-import ne.ordinary.dd.repository.FeedRepository;
+//import ne.ordinary.dd.repository.FeedRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.Optional;
 public class CommentService {
 
     private final CommentRepository commentRepository;
-    private final FeedRepository feedRepository;
+//    private final FeedRepository feedRepository;
     //댓글 작성
     public void saveComment(Long feedId, CommentRequestDTO commentRequestDTO){
         Comment comment = commentRequestDTO.toEntity();
