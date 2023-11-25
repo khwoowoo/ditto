@@ -1,6 +1,7 @@
 package ne.ordinary.dd.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import ne.ordinary.dd.core.exception.Exception400;
 import ne.ordinary.dd.domain.Feed;
 import ne.ordinary.dd.domain.FeedLike;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class FeedsService {
@@ -39,10 +41,11 @@ public class FeedsService {
 
             return feedList.stream()
                     .map(f -> {
-                        Optional<Feed> feed = feedsRepository.findById(f.getFeedId());
+                        log.info("feed_id: " + f.getId());
+                        Optional<Feed> feed = feedsRepository.findById(f.getId());
                         Optional<User> user = userRepository.findById(f.getUserId());
 
-                        Long commentCount = commentRepository.countByFeedId(f.getFeedId()); // commentRepository에 추가
+                        Long commentCount = commentRepository.countByFeedId(f.getId()); // commentRepository에 추가
                         Optional<FeedLike> feedLike = feedLikeRepository.findByUserIdAndFeedId(feed.get().getId(), user.get().getId());
 
                         boolean isLikeChecked = false;
@@ -118,9 +121,12 @@ public class FeedsService {
     public String postFeedLike(Long feedId, FeedsDTO.Request request) {
         Optional<Feed> getFeed = feedsRepository.findById(feedId);
         Optional<User> getUser = userRepository.findById(request.getUserId());
+        Optional<FeedLike> getFeedLike = feedLikeRepository.findByFeedAndUser(getFeed.get(), getUser.get());
 
         if(getFeed.isEmpty() || getUser.isEmpty())
             throw new Exception400("request", "피드 Id 혹은 유저 Id가 유효하지 않습니다.");
+        else if(getFeedLike.isPresent())
+            throw new Exception400("request", "이미 공감을 눌렀습니다.");
 
         FeedLike feedLike = FeedLike.builder()
                 .feed(getFeed.get())
