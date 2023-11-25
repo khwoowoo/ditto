@@ -7,6 +7,7 @@ import ne.ordinary.dd.domain.FeedLike;
 import ne.ordinary.dd.domain.User;
 import ne.ordinary.dd.model.FeedsDTO;
 import ne.ordinary.dd.repository.CommentRepository;
+import ne.ordinary.dd.repository.FeedLikeRepository;
 import ne.ordinary.dd.repository.FeedsRepository;
 import ne.ordinary.dd.repository.UserRepository;
 import org.springframework.data.domain.Page;
@@ -42,7 +43,7 @@ public class FeedsService {
                         Optional<User> user = userRepository.findById(f.getUserId());
 
                         Long commentCount = commentRepository.countByPostId(f.getFeedId()); // commentRepository에 추가
-                        Optional<FeedLike> feedLike = feedLikeRepository.findByFeedAndUser(feed.get(), user.get());
+                        Optional<FeedLike> feedLike = feedLikeRepository.findByUserIdAndFeedId(feed.get().getId(), user.get().getId());
 
                         boolean isLikeChecked = false;
                         if(feedLike.isPresent())
