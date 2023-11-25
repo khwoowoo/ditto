@@ -5,7 +5,6 @@ import ne.ordinary.dd.domain.Comment;
 import ne.ordinary.dd.domain.CommentLike;
 import ne.ordinary.dd.repository.CommentLikeRepository;
 import ne.ordinary.dd.repository.CommentRepository;
-import ne.ordinary.dd.repository.UserRepositority;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,14 +15,13 @@ public class CommentLikeService {
 
     private final CommentLikeRepository commentLikeRepository;
     private final CommentRepository commentRepository;
-    private final UserRepositority userRepositority;
 
     public void addTLike(Long commentId){
 
         Optional<CommentLike> TLike = commentLikeRepository.findCommentLikeByCommentId(commentId);
         Optional<Comment> comment = commentRepository.findById(commentId);
 
-        if (TLike == null){
+        if (TLike.isEmpty()){
             CommentLike commentLike =  CommentLike
                     .builder()
                     .comment(comment.get())
@@ -34,10 +32,10 @@ public class CommentLikeService {
     }
     public void addFLike(Long commentId){
 
-        Optional<CommentLike> TLike = commentLikeRepository.findCommentLikeByCommentId(commentId);
+        Optional<CommentLike> FLike = commentLikeRepository.findCommentLikeByCommentId(commentId);
         Optional<Comment> comment = commentRepository.findById(commentId);
 
-        if (TLike == null){
+        if (FLike.isEmpty()){
             CommentLike commentLike =  CommentLike
                     .builder()
                     .comment(comment.get())
@@ -50,14 +48,14 @@ public class CommentLikeService {
     public void removeTLike(Long commentId){
         Optional<CommentLike> TLike = commentLikeRepository.findCommentLikeByCommentId(commentId);
         Optional<Comment> comment = commentRepository.findById(commentId);
-        if (TLike != null){
+        if (TLike.isEmpty()){
             commentLikeRepository.delete(TLike);
         }
     }
     public void removeFLike(Long commentId){
         Optional<CommentLike> FLike = commentLikeRepository.findCommentLikeByCommentId(commentId);
         Optional<Comment> comment = commentRepository.findById(commentId);
-        if (FLike != null){
+        if (FLike.isEmpty()){
             commentLikeRepository.delete(FLike);
         }
     }

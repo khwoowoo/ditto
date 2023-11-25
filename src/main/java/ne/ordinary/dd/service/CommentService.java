@@ -6,7 +6,6 @@ import ne.ordinary.dd.domain.Comment;
 import ne.ordinary.dd.model.CommentRequestDTO;
 import ne.ordinary.dd.repository.CommentRepository;
 import ne.ordinary.dd.repository.FeedRepository;
-import ne.ordinary.dd.repository.UserRepositority;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,12 +16,11 @@ import java.util.Optional;
 public class CommentService {
 
     private final CommentRepository commentRepository;
-    private final UserRepositority userRepositority;
     private final FeedRepository feedRepository;
     //댓글 작성
     public void saveComment(Long feedId, CommentRequestDTO commentRequestDTO){
         Comment comment = commentRequestDTO.toEntity();
-        comment.confirmPost(feedRepository.findById(feedId).orElseThrow(() -> new Exception404("게시글이 존재하지 않습니다.")));
+//        comment.confirmPost(feedRepository.findById(feedId).orElseThrow(() -> new Exception404("게시글이 존재하지 않습니다.")));
 
         commentRepository.save(comment);
     }
@@ -30,7 +28,7 @@ public class CommentService {
     //대댓글 작성
     public void saveRecomment(Long feedId, Long parentId, CommentRequestDTO commentRequestDTO){
         Comment comment = commentRequestDTO.toEntity();
-        comment.confirmPost(feedRepository.findById(feedId).orElseThrow(() -> new Exception404("게시글이 존재하지 않습니다.")));
+//        comment.confirmPost(feedRepository.findById(feedId).orElseThrow(() -> new Exception404("게시글이 존재하지 않습니다.")));
         comment.confirmParent(commentRepository.findById(parentId).orElseThrow(() -> new Exception404("댓글이 존재하지 않습니다.")));
         commentRepository.save(comment);
     }
