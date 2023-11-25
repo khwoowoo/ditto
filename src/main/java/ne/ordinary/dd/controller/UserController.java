@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @PatchMapping("/user/profile/{userId}")
-    public ResponseDTO<Long> login(@PathVariable Long userId, @RequestBody UserRequestDto userRequestDto){
+    public ResponseDTO<Long> rename(@PathVariable Long userId, @RequestBody UserRequestDto userRequestDto){
         userService.rename(userId, userRequestDto.getUsername());
         return new ResponseDTO<Long>(userId);
     }
