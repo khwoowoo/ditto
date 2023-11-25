@@ -2,21 +2,25 @@ package ne.ordinary.dd.service;
 
 import lombok.RequiredArgsConstructor;
 import ne.ordinary.dd.core.exception.Exception404;
+import ne.ordinary.dd.core.exception.Exception500;
 import ne.ordinary.dd.domain.Comment;
 import ne.ordinary.dd.domain.Feed;
 import ne.ordinary.dd.domain.FeedLike;
 import ne.ordinary.dd.domain.User;
 import ne.ordinary.dd.model.CommentResponse;
+import ne.ordinary.dd.model.FeedRequest;
 import ne.ordinary.dd.model.FeedResponse;
 import ne.ordinary.dd.repository.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@RequiredArgsConstructor
-@Service
+@Transactional(readOnly = true)
+@RequiredArgsConstructor()
+@Service()
 public class FeedService {
 
     private final UserRepository userRepository;
@@ -105,5 +109,15 @@ public class FeedService {
         }
 
         return count;
+    }
+
+    @Transactional
+    public void addFeed(FeedRequest.AddDTO addDTO) {
+        User userPS = userRepository.findByUuid(addDTO.getUuid()).get(0);
+        try {
+            feedsRepository.save(addDTO.toEntity(userPS));
+        } catch (Exception e) {
+            throw new Exception500("피드 저장에 실패했습니다.");
+        }
     }
 }
