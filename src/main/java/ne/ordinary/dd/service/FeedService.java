@@ -131,9 +131,15 @@ public class FeedService {
                 () -> new Exception404("존재하지 않는 피드입니다.")
         );
         try {
-            feedPS.updateTitle(updateDTO.getTitle());
-            feedPS.updateCategory(updateDTO.getCategory());
-            feedPS.updateContent(updateDTO.getContent());
+            if (updateDTO.getTitle() != null) {
+                feedPS.updateTitle(updateDTO.getTitle());
+            }
+            if (updateDTO.getCategory() != null) {
+                feedPS.updateCategory(updateDTO.getCategory());
+            }
+            if (updateDTO.getContent() != null) {
+                feedPS.updateContent(updateDTO.getContent());
+            }
         } catch (Exception e) {
             throw new Exception500("피드 수정이 실패했습니다.");
         }
