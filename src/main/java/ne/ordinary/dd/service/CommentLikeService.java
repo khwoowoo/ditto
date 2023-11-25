@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import ne.ordinary.dd.domain.Comment;
 import ne.ordinary.dd.domain.CommentLike;
 import ne.ordinary.dd.domain.Notice;
+import ne.ordinary.dd.model.CommentLikeDTO;
 import ne.ordinary.dd.repository.CommentLikeRepository;
 import ne.ordinary.dd.repository.CommentRepository;
 import ne.ordinary.dd.repository.NoticeRepository;
@@ -21,7 +22,7 @@ public class CommentLikeService {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
 
-    public void addTLike(Long commentId, Long userId, Long type){
+    public void addTLike(Long commentId, CommentLikeDTO commentLikeDTO){
 
         Optional<CommentLike> TLike = commentLikeRepository.findCommentLikeByCommentId(commentId);
         Optional<Comment> comment = commentRepository.findById(commentId);
@@ -30,14 +31,14 @@ public class CommentLikeService {
             CommentLike commentLike =  CommentLike
                     .builder()
                     .comment(comment.get())
-                    .type(type)
-                    .user(userRepository.findUser(userId))
+                    .type(commentLikeDTO.getType())
+                    .user(userRepository.findUser(commentLikeDTO.getUserId()))
                     .build();
 
             commentLikeRepository.save(commentLike);
         }
     }
-    public void addFLike(Long commentId, Long userId, Long type){
+    public void addFLike(Long commentId, CommentLikeDTO commentLikeDTO){
 
         Optional<CommentLike> FLike = commentLikeRepository.findCommentLikeByCommentId(commentId);
         Optional<Comment> comment = commentRepository.findById(commentId);
@@ -46,8 +47,8 @@ public class CommentLikeService {
             CommentLike commentLike =  CommentLike
                     .builder()
                     .comment(comment.get())
-                    .type(type)
-                    .user(userRepository.findUser(userId))
+                    .type(commentLikeDTO.getType())
+                    .user(userRepository.findUser(commentLikeDTO.getUserId()))
                     .build();
 
             commentLikeRepository.save(commentLike);

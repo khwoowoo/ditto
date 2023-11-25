@@ -40,7 +40,7 @@ public class Comment extends BaseTime {
     private boolean isRemoved = false;
 
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
     private List<Comment> childList = new ArrayList<>();
 
 

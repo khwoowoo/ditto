@@ -1,6 +1,7 @@
 package ne.ordinary.dd.controller;
 
 import lombok.RequiredArgsConstructor;
+import ne.ordinary.dd.model.CommentLikeDTO;
 import ne.ordinary.dd.model.CommentRequestDTO;
 import ne.ordinary.dd.service.CommentLikeService;
 import ne.ordinary.dd.service.CommentService;
@@ -21,7 +22,7 @@ public class CommentController {
         return ResponseEntity.ok("댓글이 작성되었습니다");
     }
     @PostMapping("/{feedId}/{parentId}")
-    public ResponseEntity<String> reCommentSave(@PathVariable("feedId") Long feedId, @PathVariable("commentId") Long commentId, CommentRequestDTO commentRequestDTO){
+    public ResponseEntity<String> reCommentSave(@PathVariable("feedId") Long feedId, @PathVariable("parentId") Long commentId, @RequestBody CommentRequestDTO commentRequestDTO){
         commentService.saveRecomment(feedId, commentId, commentRequestDTO);
         return ResponseEntity.ok("대댓글이 작성되었습니다");
     }
@@ -36,22 +37,22 @@ public class CommentController {
         return ResponseEntity.ok("댓글이 삭제되었습니다");
     }
     @PostMapping("/{commentId}/Tlike")
-    public ResponseEntity<String> addTlike(@PathVariable("commentId") Long commentId, @RequestBody Long userId, @RequestBody Long type){
-        commentLikeService.addTLike(commentId, userId, type);
+    public ResponseEntity<String> addTlike(@PathVariable("commentId") Long commentId, @RequestBody CommentLikeDTO commentLikeDTO){
+        commentLikeService.addTLike(commentId, commentLikeDTO);
         return ResponseEntity.ok("공감하였습니다");
     }
     @PostMapping("/{commentId}/Flike")
-    public ResponseEntity<String> addFlike(@PathVariable("commentId") Long commentId, @RequestBody Long userId, @RequestBody Long type){
-        commentLikeService.addFLike(commentId, userId, type);
+    public ResponseEntity<String> addFlike(@PathVariable("commentId") Long commentId, @RequestBody CommentLikeDTO commentLikeDTO){
+        commentLikeService.addFLike(commentId, commentLikeDTO);
         return ResponseEntity.ok("공감하였습니다");
     }
     @DeleteMapping("/{commentId}/Tlike")
-    public ResponseEntity<String> removeTLike(@PathVariable("commentLike") Long commentId){
+    public ResponseEntity<String> removeTLike(@PathVariable("commentId") Long commentId){
         commentLikeService.removeTLike(commentId);
         return ResponseEntity.ok("공감이 취소되었습니다");
     }
     @DeleteMapping("/{commentId}/Flike")
-    public ResponseEntity<String> removeFLike(@PathVariable("commentLike") Long commentId){
+    public ResponseEntity<String> removeFLike(@PathVariable("commentId") Long commentId){
         commentLikeService.removeFLike(commentId);
         return ResponseEntity.ok("공감이 취소되었습니다");
     }

@@ -45,8 +45,8 @@ public class CommentService {
         Comment comment = commentRequestDTO.toEntity();
         Optional<Feed> feed = feedsRepository.findById(feedId);
         comment.confirmParent(commentRepository.findById(parentId).orElseThrow(() -> new Exception404("댓글이 존재하지 않습니다.")));
-        commentRepository.save(comment);
         comment.setFeed(feed.get());
+        commentRepository.save(comment);
     }
 
     //댓글 수정
