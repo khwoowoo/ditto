@@ -2,6 +2,7 @@ package ne.ordinary.dd.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
@@ -28,4 +29,11 @@ public class Notice extends BaseTime {
 
     @Column(name = "content", nullable = false)
     private String content;
+
+    @Builder
+    public Notice(User user, String title, String content) {
+        this.user = user;
+        this.title = title;
+        this.content = content;
+    }
 }
