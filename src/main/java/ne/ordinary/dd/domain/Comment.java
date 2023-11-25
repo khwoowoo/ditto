@@ -36,10 +36,10 @@ public class Comment {
     @Column(nullable = false, length = 255)
     private String content; //댓글 내용
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private LocalDateTime createdAt; //생성일
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private LocalDateTime updatedAt; //수정일
 
     private boolean isRemoved = false;

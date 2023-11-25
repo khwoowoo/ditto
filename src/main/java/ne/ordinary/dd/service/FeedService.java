@@ -2,21 +2,26 @@ package ne.ordinary.dd.service;
 
 import lombok.RequiredArgsConstructor;
 import ne.ordinary.dd.core.exception.Exception404;
+import ne.ordinary.dd.core.exception.Exception500;
 import ne.ordinary.dd.domain.Comment;
 import ne.ordinary.dd.domain.Feed;
 import ne.ordinary.dd.domain.FeedLike;
 import ne.ordinary.dd.domain.User;
 import ne.ordinary.dd.model.CommentResponse;
+import ne.ordinary.dd.model.FeedRequest;
 import ne.ordinary.dd.model.FeedResponse;
 import ne.ordinary.dd.repository.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Executable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@RequiredArgsConstructor
-@Service
+@Transactional(readOnly = true)
+@RequiredArgsConstructor()
+@Service()
 public class FeedService {
 
     private final UserRepository userRepository;
@@ -67,11 +72,11 @@ public class FeedService {
         FeedResponse.FeedDTO feedDTO = new FeedResponse.FeedDTO(
                 feedPS,
                 new FeedResponse.AuthorDTO(userPS),
-                feedLikeOP.isPresent() && feedLikeOP.get().getSympathy1() >= 1
+                feedLikeOP.isPresent() && (feedLikeOP.get().getSympathy1() >= 1
                         || feedLikeOP.get().getSympathy2() >= 1
                         || feedLikeOP.get().getSympathy3() >= 1
                         || feedLikeOP.get().getSympathy4() >= 1
-                        || feedLikeOP.get().getSympathy5() >= 1
+                        || feedLikeOP.get().getSympathy5() >= 1)
                         ? true : false,
                 countComments(commentDTOs),
                 commentDTOs
@@ -105,5 +110,68 @@ public class FeedService {
         }
 
         return count;
+    }
+
+    @Transactional
+    public void addFeed(FeedRequest.AddDTO addDTO) {
+        List<User> users = userRepository.findByUuid(addDTO.getUuid());
+        if (users.size() == 0) {
+            throw new Exception404("존재하지 않는 유저입니다.");
+        }
+        try {
+            feedsRepository.save(addDTO.toEntity(users.get(0)));
+        } catch (Exception e) {
+            throw new Exception500("피드 저장에 실패했습니다.");
+        }
+    }
+
+    @Transactional
+    public void updateFeed(Long id, FeedRequest.UpdateDTO updateDTO) {
+        Feed feedPS = feedsRepository.findById(id).orElseThrow(
+                () -> new Exception404("존재하지 않는 피드입니다.")
+        );
+        try {
+            feedPS.updateTitle(updateDTO.getTitle());
+            feedPS.updateCategory(updateDTO.getCategory());
+            feedPS.updateContent(updateDTO.getContent());
+        } catch (Exception e) {
+            throw new Exception500("피드 수정이 실패했습니다.");
+        }
+    }
+
+    @Transactional
+    public void deleteFeed(Long id, FeedRequest.DeleteDTO deleteDTO) {
+        try {
+            userRepository.findByUuid(deleteDTO.getUuid());
+        } catch (Exception e) {
+            throw new Exception404("존재하지 않는 유저입니다.");
+        }
+        Feed feedPS = feedsRepository.findById(id).orElseThrow(
+                () -> new Exception404("존재하지 않는 피드입니다.")
+        );
+        try {
+            feedsRepository.deleteById(feedPS.getId());
+        } catch (Exception e) {
+            throw new Exception500("피드 삭제가 실패했습니다.");
+        }
+    }
+
+    @Transactional
+    public void deleteFeedLike(Long id, FeedRequest.DeleteLikeDTO deleteLikeDTO) {
+        Feed feedPS = feedsRepository.findById(id).orElseThrow(
+                () -> new Exception404("존재하지 않는 피드입니다.")
+        );
+        List<User> users = userRepository.findByUuid(deleteLikeDTO.getUuid());
+        if (users.size() == 0) {
+            throw new Exception404("존재하지 않는 유저입니다.");
+        }
+        Optional<FeedLike> feedLikeOP = feedLikeRepository.findByFeedAndUser(feedPS, users.get(0));
+        try {
+            if (feedLikeOP.isPresent()) {
+                feedLikeRepository.delete(feedLikeOP.get());
+            }
+        } catch (Exception e) {
+            throw new Exception500("피드 공감 삭제가 실패했습니다.");
+        }
     }
 }

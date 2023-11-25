@@ -14,35 +14,35 @@ public class CommentController {
     private final CommentService commentService;
     private final CommentLikeService commentLikeService;
 
-    @PostMapping("/comment/{feedId}")
+    @PostMapping("/{feedId}")
     public void commentCreate(@PathVariable("feedId") Long feedId, CommentRequestDTO commentRequestDTO){
         commentService.saveComment(feedId, commentRequestDTO);
     }
-    @PostMapping("/commeent/{feedId}/[parentId]")
+    @PostMapping("/{feedId}/{parentId}")
     public void reCommentSave(@PathVariable("feedId") Long feedId, @PathVariable("commentId") Long commentId, CommentRequestDTO commentRequestDTO){
         commentService.saveRecomment(feedId, commentId, commentRequestDTO);
     }
-    @PatchMapping("/comment/{commentId}")
+    @PatchMapping("/{commentId}")
     public void updateComment(@PathVariable("commentId") Long commentId, CommentRequestDTO commentRequestDTO){
         commentService.updateComment(commentId, commentRequestDTO);
     }
-    @DeleteMapping("/comment/{commentId}")
+    @DeleteMapping("/{commentId}")
     public void delete(@PathVariable("commentId") Long commentId){
         commentService.deleteComment(commentId);
     }
-    @PostMapping("/comment/{commentId}/Tlike")
+    @PostMapping("/{commentId}/Tlike")
     public void addTlike(@PathVariable("commentId") Long commentId, @RequestBody Long userId, @RequestBody Long type){
         commentLikeService.addTLike(commentId, userId, type);
     }
-    @PostMapping("/comment/{commentId}/Flike")
+    @PostMapping("/{commentId}/Flike")
     public void addFlike(@PathVariable("commentId") Long commentId, @RequestBody Long userId, @RequestBody Long type){
         commentLikeService.addFLike(commentId, userId, type);
     }
-    @DeleteMapping("/comment/{commentId}/Tlike")
+    @DeleteMapping("/{commentId}/Tlike")
     public void removeTLike(@PathVariable("commentLike") Long commentId){
         commentLikeService.removeTLike(commentId);
     }
-    @DeleteMapping("/comment/{commentId}/Flike")
+    @DeleteMapping("/{commentId}/Flike")
     public void removeFLike(@PathVariable("commentLike") Long commentId){
         commentLikeService.removeFLike(commentId);
     }
