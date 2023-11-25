@@ -19,7 +19,7 @@ public class CommentLikeService {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
 
-    public ResponseEntity<String> addTLike(Long commentId, Long userId){
+    public ResponseEntity<String> addTLike(Long commentId, Long userId, Long type){
 
         Optional<CommentLike> TLike = commentLikeRepository.findCommentLikeByCommentId(commentId);
         Optional<Comment> comment = commentRepository.findById(commentId);
@@ -28,7 +28,7 @@ public class CommentLikeService {
             CommentLike commentLike =  CommentLike
                     .builder()
                     .comment(comment.get())
-                    .type(2L)
+                    .type(type)
                     .user(userRepository.findUser(userId))
                     .build();
 
@@ -36,7 +36,7 @@ public class CommentLikeService {
         }
         return ResponseEntity.ok("공감하셨습니다.");
     }
-    public ResponseEntity<String> addFLike(Long commentId, Long userId){
+    public ResponseEntity<String> addFLike(Long commentId, Long userId, Long type){
 
         Optional<CommentLike> FLike = commentLikeRepository.findCommentLikeByCommentId(commentId);
         Optional<Comment> comment = commentRepository.findById(commentId);
@@ -45,7 +45,7 @@ public class CommentLikeService {
             CommentLike commentLike =  CommentLike
                     .builder()
                     .comment(comment.get())
-                    .type(1L)
+                    .type(type)
                     .user(userRepository.findUser(userId))
                     .build();
 
