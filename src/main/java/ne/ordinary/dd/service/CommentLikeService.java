@@ -21,7 +21,7 @@ public class CommentLikeService {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
 
-    public ResponseEntity<String> addTLike(Long commentId, Long userId, Long type){
+    public void addTLike(Long commentId, Long userId, Long type){
 
         Optional<CommentLike> TLike = commentLikeRepository.findCommentLikeByCommentId(commentId);
         Optional<Comment> comment = commentRepository.findById(commentId);
@@ -36,9 +36,8 @@ public class CommentLikeService {
 
             commentLikeRepository.save(commentLike);
         }
-        return ResponseEntity.ok("공감하셨습니다.");
     }
-    public ResponseEntity<String> addFLike(Long commentId, Long userId, Long type){
+    public void addFLike(Long commentId, Long userId, Long type){
 
         Optional<CommentLike> FLike = commentLikeRepository.findCommentLikeByCommentId(commentId);
         Optional<Comment> comment = commentRepository.findById(commentId);
@@ -53,23 +52,20 @@ public class CommentLikeService {
 
             commentLikeRepository.save(commentLike);
         }
-        return ResponseEntity.ok("공감하셨습니다.");
     }
 
-    public ResponseEntity<String> removeTLike(Long commentId){
+    public void removeTLike(Long commentId){
         Optional<CommentLike> TLike = commentLikeRepository.findCommentLikeByCommentId(commentId);
         Optional<Comment> comment = commentRepository.findById(commentId);
         if (TLike.isEmpty()){
             commentLikeRepository.delete(TLike.get());
         }
-        return ResponseEntity.ok("댓글 공감이 취소되었습니다.");
     }
-    public ResponseEntity<String> removeFLike(Long commentId){
+    public void removeFLike(Long commentId){
         Optional<CommentLike> FLike = commentLikeRepository.findCommentLikeByCommentId(commentId);
         Optional<Comment> comment = commentRepository.findById(commentId);
         if (FLike.isEmpty()){
             commentLikeRepository.delete(FLike.get());
         }
-        return ResponseEntity.ok("댓글 공감이 취소되었습니다.");
     }
 }
