@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Repository
 public interface CommentLikeRepository extends JpaRepository<CommentLike, Long> {
 
     @Query("SELECT cl " +
@@ -16,7 +17,7 @@ public interface CommentLikeRepository extends JpaRepository<CommentLike, Long> 
             "where cl.comment.commentId = :commentId ")
     Optional<CommentLike> findCommentLikeByCommentId(Long commentId);
 
-    void delete(Optional<CommentLike> commentLike);
+    void delete(CommentLike commentLike);
 
     @Query("select count(*) " +
             "from CommentLike cl " +

@@ -48,7 +48,7 @@ public class CommentLikeService {
                     .type(1L)
                     .user(userRepository.findUser(userId))
                     .build();
-            
+
             commentLikeRepository.save(commentLike);
         }
         return ResponseEntity.ok("공감하셨습니다.");
@@ -58,7 +58,7 @@ public class CommentLikeService {
         Optional<CommentLike> TLike = commentLikeRepository.findCommentLikeByCommentId(commentId);
         Optional<Comment> comment = commentRepository.findById(commentId);
         if (TLike.isEmpty()){
-            commentLikeRepository.delete(TLike);
+            commentLikeRepository.delete(TLike.get());
         }
         return ResponseEntity.ok("댓글 공감이 취소되었습니다.");
     }
@@ -66,7 +66,7 @@ public class CommentLikeService {
         Optional<CommentLike> FLike = commentLikeRepository.findCommentLikeByCommentId(commentId);
         Optional<Comment> comment = commentRepository.findById(commentId);
         if (FLike.isEmpty()){
-            commentLikeRepository.delete(FLike);
+            commentLikeRepository.delete(FLike.get());
         }
         return ResponseEntity.ok("댓글 공감이 취소되었습니다.");
     }
