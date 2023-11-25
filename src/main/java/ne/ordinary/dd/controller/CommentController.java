@@ -31,12 +31,12 @@ public class CommentController {
         commentService.deleteComment(commentId);
     }
     @PostMapping("/comment/[commentId]/Tilke")
-    public void addTlike(@PathVariable("commentId") Long commentId){
-        commentLikeService.addTLike(commentId);
+    public void addTlike(@PathVariable("commentId") Long commentId, @RequestBody Long userId){
+        commentLikeService.addTLike(commentId, userId);
     }
     @PostMapping("/comment/[commentId]/Filke")
-    public void addFlike(@PathVariable("commentId") Long commentId){
-        commentLikeService.addFLike(commentId);
+    public void addFlike(@PathVariable("commentId") Long commentId, @RequestBody Long userId){
+        commentLikeService.addFLike(commentId, userId);
     }
     @DeleteMapping("/comment/[commentId]/Tlike")
     public void removeTLike(@PathVariable("commentLike") Long commentId){
