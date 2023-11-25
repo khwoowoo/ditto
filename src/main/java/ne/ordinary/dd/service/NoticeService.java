@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import ne.ordinary.dd.domain.User;
 import ne.ordinary.dd.model.NoticeDTO;
 import ne.ordinary.dd.repository.NoticeRepository;
+import ne.ordinary.dd.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
