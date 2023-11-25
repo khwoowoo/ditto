@@ -16,33 +16,33 @@ public class FeedsController {
     private final FeedsService feedsService;
 
     // 1. 피드리스트 홈 조회 (인기글)
-    @GetMapping("/hot")
-    public ResponseDTO<List<FeedsDTO.Response>> getHotFeeds(@RequestParam String category, @RequestParam int page) {
+    @GetMapping("/hot/{userId}")
+    public ResponseDTO<List<FeedsDTO.Response>> getHotFeeds(@PathVariable Long userId, @RequestParam String category, @RequestParam int page) {
         if(page < 0)
             throw new Exception400("page", "page 인덱스는 0보다 작을 수 없습니다.");
-        return new ResponseDTO(feedsService.getHotFeeds(category, page));
+        return new ResponseDTO(feedsService.getHotFeeds(userId, category, page));
 
     }
 
     // 2. 피드리스트 홈 조회 (최근글)
-    @GetMapping("/recent")
-    public ResponseDTO<List<FeedsDTO.Response>> getRecentFeeds(@RequestParam String category, @RequestParam int page) {
+    @GetMapping("/recent/{userId}")
+    public ResponseDTO<List<FeedsDTO.Response>> getRecentFeeds(@PathVariable Long userId, @RequestParam String category, @RequestParam int page) {
         if(page < 0)
             throw new Exception400("page", "page 인덱스는 0보다 작을 수 없습니다.");
-        return new ResponseDTO(feedsService.getRecentFeeds(category, page));
+        return new ResponseDTO(feedsService.getRecentFeeds(userId, category, page));
     }
 
     // 3. 피드 조회
-    @GetMapping("")
-    public ResponseDTO<List<FeedsDTO.Response>> getFeeds(@RequestParam String keyword, @RequestParam int page) {
+    @GetMapping("/{userId}")
+    public ResponseDTO<List<FeedsDTO.Response>> getFeeds(@PathVariable Long userId, @RequestParam String keyword, @RequestParam int page) {
         if(page < 0)
             throw new Exception400("page", "page 인덱스는 0보다 작을 수 없습니다.");
-        return new ResponseDTO(feedsService.getFeeds(keyword, page));
+        return new ResponseDTO(feedsService.getFeeds(userId, keyword, page));
     }
 
     // 4. 피드 공감
     @PostMapping("/{feedId}/like")
-    public ResponseDTO<String> postFeedLike(@RequestBody FeedsDTO.Request request) {
-        return new ResponseDTO(feedsService.postFeedLike(request));
+    public ResponseDTO<String> postFeedLike(@PathVariable Long feedId, @RequestBody FeedsDTO.Request request) {
+        return new ResponseDTO(feedsService.postFeedLike(feedId, request));
     }
 }

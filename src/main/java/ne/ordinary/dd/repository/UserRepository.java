@@ -6,6 +6,7 @@ import ne.ordinary.dd.domain.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -30,5 +31,9 @@ public class UserRepository {
         return em.createQuery("select u from User u where u.uuid = :uuid", User.class)
                 .setParameter("uuid", uuid)
                 .getResultList();
+    }
+
+    public Optional<User> findById(Long id) {
+        return Optional.ofNullable(em.find(User.class, id));
     }
 }

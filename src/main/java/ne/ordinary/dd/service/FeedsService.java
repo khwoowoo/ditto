@@ -7,6 +7,7 @@ import ne.ordinary.dd.domain.FeedLike;
 import ne.ordinary.dd.domain.User;
 import ne.ordinary.dd.model.FeedsDTO;
 import ne.ordinary.dd.repository.FeedsRepository;
+import ne.ordinary.dd.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class FeedsService {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
 
-    public List<FeedsDTO.Response> getHotFeeds(String category, int page) {
+    public List<FeedsDTO.Response> getHotFeeds(Long userId, String category, int page) {
         try{
             PageRequest pageRequest = PageRequest.of(page, 20);
             Page<FeedsRepository.FeedResult> feedList;
@@ -36,8 +37,17 @@ public class FeedsService {
 
             return feedList.stream()
                     .map(f -> {
+                        Optional<Feed> feed = feedsRepository.findById(f.getFeedId());
+                        Optional<User> user = userRepository.findById(f.getUserId());
+
                         Long commentCount = commentRepository.countByPostId(f.getId()); // commentRepository에 추가
-                        return new FeedsDTO.Response(f, f.getLikeCount(), commentCount);
+                        Optional<FeedLike> feedLike = feedLikeRepository.findByFeedAndUser(feed.get(), user.get());
+
+                        boolean isLikeChecked = false;
+                        if(feedLike.isPresent())
+                            isLikeChecked = true;
+
+                        return new FeedsDTO.Response(f, f.getLikeCount(), commentCount, isLikeChecked);
                     })
                     .collect(Collectors.toList());
         } catch(Exception e) {
@@ -46,7 +56,7 @@ public class FeedsService {
         }
     }
 
-    public List<FeedsDTO.Response> getRecentFeeds(String category, int page) {
+    public List<FeedsDTO.Response> getRecentFeeds(Long userId, String category, int page) {
         try{
             PageRequest pageRequest = PageRequest.of(page, 20);
             Page<Feed> feedList;
@@ -61,7 +71,12 @@ public class FeedsService {
                         Long likeCount = feedLikeRepository.countByFeedId(f.getId());   // feedLikeRepository에 추가
                         Long commentCount = commentRepository.countByPostId(f.getId()); // commentRepository에 추가
 
-                        return new FeedsDTO.Response(f, likeCount, commentCount);
+                        boolean isLikeChecked = false;
+                        Optional<FeedLike> feedLike = feedLikeRepository.findByFeedAndUser(f, f.getUser());
+                        if(feedLike.isPresent())
+                            isLikeChecked = true;
+
+                        return new FeedsDTO.Response(f, likeCount, commentCount, isLikeChecked);
                     })
                     .collect(Collectors.toList());
         } catch(Exception e) {
@@ -70,7 +85,7 @@ public class FeedsService {
         }
     }
 
-    public List<FeedsDTO.Response> getFeeds(String keyword, int page) {
+    public List<FeedsDTO.Response> getFeeds(Long userId, String keyword, int page) {
         try{
             PageRequest pageRequest = PageRequest.of(page, 20);
             Page<Feed> feedList = feedsRepository.findAllByTitleContainingOrderByCreatedAtDesc(keyword, pageRequest);
@@ -83,7 +98,12 @@ public class FeedsService {
                         Long likeCount = feedLikeRepository.countByFeedId(f.getId());   // feedLikeRepository에 추가
                         Long commentCount = commentRepository.countByPostId(f.getId()); // commentRepository에 추가
 
-                        return new FeedsDTO.Response(f, likeCount, commentCount);
+                        boolean isLikeChecked = false;
+                        Optional<FeedLike> feedLike = feedLikeRepository.findByFeedAndUser(f, f.getUser());
+                        if(feedLike.isPresent())
+                            isLikeChecked = true;
+
+                        return new FeedsDTO.Response(f, likeCount, commentCount, isLikeChecked);
                     })
                     .collect(Collectors.toList());
         } catch(Exception e) {
@@ -93,8 +113,8 @@ public class FeedsService {
     }
 
     @Transactional
-    public String postFeedLike(FeedsDTO.Request request) {
-        Optional<Feed> getFeed = feedsRepository.findById(request.getFeedId());
+    public String postFeedLike(Long feedId, FeedsDTO.Request request) {
+        Optional<Feed> getFeed = feedsRepository.findById(feedId);
         Optional<User> getUser = userRepository.findById(request.getUserId());
 
         if(getFeed.isEmpty() || getUser.isEmpty())
