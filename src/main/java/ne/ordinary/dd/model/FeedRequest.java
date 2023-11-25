@@ -46,4 +46,15 @@ public class FeedRequest {
                     .build();
         }
     }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class UpdateDTO {
+
+        private String uuid;
+        private String title;
+        private String category;
+        private String content;
+    }
 }

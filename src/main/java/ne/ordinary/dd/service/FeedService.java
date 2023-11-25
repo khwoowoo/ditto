@@ -120,4 +120,18 @@ public class FeedService {
             throw new Exception500("피드 저장에 실패했습니다.");
         }
     }
+
+    @Transactional
+    public void updateFeed(Long id, FeedRequest.UpdateDTO updateDTO) {
+        Feed feedPS = feedsRepository.findById(id).orElseThrow(
+                () -> new Exception404("존재하지 않는 피드입니다.")
+        );
+        try {
+            feedPS.updateTitle(updateDTO.getTitle());
+            feedPS.updateCategory(updateDTO.getCategory());
+            feedPS.updateContent(updateDTO.getContent());
+        } catch (Exception e) {
+            throw new Exception500("피드 수정에 실패했습니다.");
+        }
+    }
 }
