@@ -7,7 +7,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://team-d.cajd2qdktvcd.ap-northeast-2.rds.amazonaws.com :3306/team-d?useSSL=false&setTimezone=Asia/Seoul
+    url: jdbc:mysql://team-d.cajd2qdktvcd.ap-northeast-2.rds.amazonaws.com:3306/team-d?useSSL=false&&allowPublicKeyRetrieval=true&setTimezone=Asia/Seoul
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: ${RDS_USERNAME}
     password: ${RDS_PASSWORD}
@@ -18,13 +18,17 @@ spring:
     properties:
       default_batch_fetch_size: 100
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
   servlet:
     multipart:
       max-file-size: 100MB
+
+  config:
+    activate:
+      on-profile: prod
 cloud:
   aws:
     credentials:
@@ -39,6 +43,8 @@ cloud:
 logging:
   level:
     '[kr.co.moneybridge]': INFO
+
+
 
 chatgpt:
   key: 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
