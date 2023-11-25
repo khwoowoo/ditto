@@ -30,7 +30,7 @@ public class FeedRequest {
     @Getter
     @Setter
     @AllArgsConstructor
-    public class AddDTO {
+    public static class AddDTO {
 
         private String uuid;
         private String title;
