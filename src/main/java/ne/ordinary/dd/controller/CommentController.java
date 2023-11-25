@@ -34,7 +34,7 @@ public class CommentController {
     }
     @DeleteMapping("/{commentId}")
     public ResponseDTO<String> delete(@PathVariable("commentId") Long commentId){
-        commentService.deleteComment(commentId);
+        commentService.deleteCommentraw(commentId);
         return new ResponseDTO<String>("댓글이 삭제되었습니다");
     }
     @PostMapping("/{commentId}/Tlike")
