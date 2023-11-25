@@ -72,11 +72,11 @@ public class FeedService {
         FeedResponse.FeedDTO feedDTO = new FeedResponse.FeedDTO(
                 feedPS,
                 new FeedResponse.AuthorDTO(userPS),
-                feedLikeOP.isPresent() && feedLikeOP.get().getSympathy1() >= 1
+                feedLikeOP.isPresent() && (feedLikeOP.get().getSympathy1() >= 1
                         || feedLikeOP.get().getSympathy2() >= 1
                         || feedLikeOP.get().getSympathy3() >= 1
                         || feedLikeOP.get().getSympathy4() >= 1
-                        || feedLikeOP.get().getSympathy5() >= 1
+                        || feedLikeOP.get().getSympathy5() >= 1)
                         ? true : false,
                 countComments(commentDTOs),
                 commentDTOs
@@ -114,9 +114,12 @@ public class FeedService {
 
     @Transactional
     public void addFeed(FeedRequest.AddDTO addDTO) {
-        User userPS = userRepository.findByUuid(addDTO.getUuid()).get(0);
+        List<User> users = userRepository.findByUuid(addDTO.getUuid());
+        if (users.size() == 0) {
+            throw new Exception404("존재하지 않는 유저입니다.");
+        }
         try {
-            feedsRepository.save(addDTO.toEntity(userPS));
+            feedsRepository.save(addDTO.toEntity(users.get(0)));
         } catch (Exception e) {
             throw new Exception500("피드 저장에 실패했습니다.");
         }
@@ -158,8 +161,11 @@ public class FeedService {
         Feed feedPS = feedsRepository.findById(id).orElseThrow(
                 () -> new Exception404("존재하지 않는 피드입니다.")
         );
-        User userPS = userRepository.findByUuid(deleteLikeDTO.getUuid()).get(0);
-        Optional<FeedLike> feedLikeOP = feedLikeRepository.findByFeedAndUser(feedPS, userPS);
+        List<User> users = userRepository.findByUuid(deleteLikeDTO.getUuid());
+        if (users.size() == 0) {
+            throw new Exception404("존재하지 않는 유저입니다.");
+        }
+        Optional<FeedLike> feedLikeOP = feedLikeRepository.findByFeedAndUser(feedPS, users.get(0));
         try {
             if (feedLikeOP.isPresent()) {
                 feedLikeRepository.delete(feedLikeOP.get());
