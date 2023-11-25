@@ -2,6 +2,7 @@ package ne.ordinary.dd.repository;
 
 import ne.ordinary.dd.domain.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -26,4 +27,9 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
             "from Comment c " +
             "where c.parent.commentId = :parentId")
     List<Comment> findByParentId(@Param("parentId") Long parentId);
+
+    @Modifying
+    @Query("delete from Comment c " +
+            "where c.feed.id = :feedId")
+    void deleteByFeedId(@Param("feedId") Long id);
 }
