@@ -1,8 +1,10 @@
 package ne.ordinary.dd.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import ne.ordinary.dd.domain.Comment;
+import ne.ordinary.dd.domain.Feed;
+import ne.ordinary.dd.domain.User;
 
 import java.util.List;
 
@@ -13,6 +15,7 @@ public class FeedResponse {
     public static class FeedDTO {
 
         private Long id;
+        private String category;
         private String title;
         private Integer sympathy1;
         private Integer sympathy2;
@@ -20,22 +23,19 @@ public class FeedResponse {
         private Integer sympathy4;
         private Integer sympathy5;
         private Integer sympathyCount;
-        private Integer commentCount;
+        private Boolean isLiked;
         private AuthorDTO authorDTO;
-        private List<Comment> replies;
+        private Integer commentCount;
+        private List<CommentResponse.CommentDTO> comments;
 
-        public FeedDTO(Long id, String title, Integer sympathy1, Integer sympathy2, Integer sympathy3, Integer sympathy4, Integer sympathy5, Integer sympathyCount, Integer commentCount, AuthorDTO authorDTO, List<Comment> replies) {
-            this.id = id;
-            this.title = title;
-            this.sympathy1 = sympathy1;
-            this.sympathy2 = sympathy2;
-            this.sympathy3 = sympathy3;
-            this.sympathy4 = sympathy4;
-            this.sympathy5 = sympathy5;
-            this.sympathyCount = sympathyCount;
-            this.commentCount = commentCount;
+        public FeedDTO(Feed feed, AuthorDTO authorDTO, Boolean isLiked, Integer commentCount, List<CommentResponse.CommentDTO> comments) {
+            this.id = feed.getId();
+            this.category = feed.getCategory();
+            this.title = feed.getTitle();
+            this.isLiked = isLiked;
             this.authorDTO = authorDTO;
-            this.replies = replies;
+            this.commentCount = commentCount;
+            this.comments = comments;
         }
     }
 
@@ -47,10 +47,10 @@ public class FeedResponse {
         private String username;
         private String heartLevel;
 
-        public AuthorDTO(Long id, String username, String heartLevel) {
-            this.id = id;
-            this.username = username;
-            this.heartLevel = heartLevel;
+        public AuthorDTO(User user) {
+            this.id = user.getId();
+            this.username = user.getUsername();
+            this.heartLevel = user.getHearLevel() + "%";
         }
     }
 
