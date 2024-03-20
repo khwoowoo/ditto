@@ -7,7 +7,9 @@
 소개 동영상: https://youtu.be/LFWS3bPurCY
 
 ![KakaoTalk_20240320_124538981-ezgif com-video-to-gif-converter](https://github.com/khwoowoo/ditto/assets/23547185/7491a35e-fcd0-4c48-926c-ef6e1fb90fbe)
+
 ![KakaoTalk_20240320_124538981-ezgif com-video-to-gif-converter (1)](https://github.com/khwoowoo/ditto/assets/23547185/b0bf678d-8ade-4a42-afc5-51bdf13727f8)
+
 ![KakaoTalk_20240320_124538981-ezgif com-video-to-gif-converter (2)](https://github.com/khwoowoo/ditto/assets/23547185/b0edf8cf-622c-4fe2-b9c9-0192ed79ca5e)
 
 
